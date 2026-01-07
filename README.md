@@ -1,3 +1,4 @@
+this ReadMe and entire project assignment was designed by - YuviVerse (Yuval Ozeri)
 # Battleship Game Assignment (C++)
 
 ## Overview
