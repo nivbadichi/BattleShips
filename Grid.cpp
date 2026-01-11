@@ -96,11 +96,13 @@ void Grid::printGrid(bool revealShips) const
             {
                 if (cell == 'C' || cell == 'B' || cell == 'R' || cell == 'S' || cell == 'D')
                 {
-                    cell = '~';
+                    cout << "~ ";
                 }
+
+                else cout << cell << " ";
             }
 
-            cout << cell << " ";
+            else cout << cell << " ";
         }
 
         cout << endl;

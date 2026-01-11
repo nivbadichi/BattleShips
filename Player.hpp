@@ -7,9 +7,8 @@ class Player {
         char* playerName;
 
         Ship* ships[5]; // Array to hold 5 ships
-
         Grid ocean; // Player's own grid with ships
-        Grid target; // Player's view of opponent's grid
+        Grid target; // Grid to track shots on opponent
     
     public:
         Player(const char* name); // Constructor to initialize playerName and ships
