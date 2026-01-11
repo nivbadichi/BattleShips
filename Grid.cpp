@@ -117,6 +117,11 @@ void Grid::printGrid(bool revealShips) const
     for (int row = 0; row < 10; row++)
     {
         cout << row+1 << "  ";
+        if (row!=9)
+        {
+            cout<< " ";
+        }
+        
 
         for (int col = 0; col < 10; col++)
         {
