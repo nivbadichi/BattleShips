@@ -4,11 +4,8 @@
 class HumanPlayer : public Player {
 public:
     HumanPlayer(const char* name) : Player(name) {}
-
+    
     void placeAllShips() override;
     void makeMove(Player* opponent) override;
+    void getInput(int& row, int& col, char& orientation);
 };
-
-asd;lfhd;fljhasd;lfhas;dlkfjas
-assdf'lkajsdf;lkj
-sa[ff'lkasjdf;l]

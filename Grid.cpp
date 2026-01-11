@@ -42,6 +42,36 @@ bool Grid::inBounds(int row, int col, int shipSize, bool horizontal) const // Ch
     return true;
 }
 
+bool Grid::validatePlacement(int row, int col, int shipSize, bool horizontal)
+{
+    bool inBounds = this->inBounds(row, col, shipSize, horizontal);
+    bool occupied = false;
+    for (int i = 0; i < shipSize; i++)
+    {
+        if (horizontal)
+        {
+            if (this->isTileOccupied(row, col + i))
+            {
+                occupied = true;
+                break;
+            }
+        }
+        else
+        {
+            if (this->isTileOccupied(row + i, col))
+            {
+                occupied = true;
+                break;
+            }
+        }
+    }
+    
+    if (inBounds&&!occupied)
+    return true;
+    else
+    return false;
+}
+
 void Grid::placeShip(int row, int col, int shipSize, bool horizontal, char symbol) // Marks each relevant cell with symbol (e.g., 'S') if valid.
 {
     if (horizontal)
@@ -80,13 +110,13 @@ void Grid::printGrid(bool revealShips) const
     cout << "   ";
     for (int col = 0; col < 10; col++)
     {
-        cout << col << " ";
+        cout << col+1 << " ";
     }
     cout << endl;
 
     for (int row = 0; row < 10; row++)
     {
-        cout << row << "  ";
+        cout << row+1 << "  ";
 
         for (int col = 0; col < 10; col++)
         {
