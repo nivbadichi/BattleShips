@@ -2,7 +2,7 @@
 #include "Grid.hpp"
 #include "HumanPlayer.hpp"
 
-void HumanPlayer::getInput(int &row, int &col, char &orientation)
+void HumanPlayer::getInput(int &row, int &col, bool &orientation)
 {
     std::cout << "Enter row (1-10): ";
     std::cin >> row;
@@ -27,6 +27,7 @@ void HumanPlayer::getInput(int &row, int &col, char &orientation)
         std::cout << "Invalid orientation. Try again." << std::endl;
         std::cin >> orientation;
     }
+    orientation = (orientChar == 'H' || orientChar == 'h');
 }
 
 void HumanPlayer::manuallyPlaceAShip(int length, char symbol)
