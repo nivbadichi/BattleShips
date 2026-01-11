@@ -20,8 +20,9 @@ class Player {
         bool allShipsSunk() const; // Returns true if all ships are sunk
 
         // getters
-        const char* getName() const;
-        Grid& getOcean();
-        Grid& getTarget();
+        const char* getName() const; // Returns playerName
+        Ship* getShipBySymbol(char symbol) const; // Returns pointer to ship based on symbol
+        Grid& getOcean(); // Returns reference to ocean grid
+        Grid& getTarget(); // Returns reference to target grid
 
 };

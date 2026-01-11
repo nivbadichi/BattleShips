@@ -47,6 +47,18 @@ const char* Player::getName() const {
     return playerName;
 }
 
+Ship* Player::getShipBySymbol(char symbol) const {
+    switch (symbol) {
+        case 'C': return ships[0]; // Carrier
+        case 'B': return ships[1]; // Battleship
+        case 'R': return ships[2]; // Cruiser
+        case 'S': return ships[3]; // Submarine
+        case 'D': return ships[4]; // Destroyer
+        default: return nullptr; // No ship corresponds to this symbol 
+            
+    }
+}
+
 Grid& Player::getOcean() {
     return ocean;
 }
