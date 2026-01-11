@@ -7,5 +7,5 @@ public:
     
     void placeAllShips() override;
     void makeMove(Player* opponent) override;
-    void getInput(int& row, int& col, char& orientation);
+    void getInput(int &row, int &col, bool &orientation);
 };
