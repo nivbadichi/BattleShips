@@ -18,16 +18,10 @@ using namespace std;
         delete [] name;
     }
 
-
-    void Ship::takeHit() // Increments hitsTaken and prints "<ShipName> got hit!".
-    {                     
+    void Ship::takeHit() // Increments hitsTaken by 1 and outputs a message indicating the ship got hit.
+    {
         hitsTaken++;
-        cout << name << " got hit!" << std::endl;
-
-        if (isSunk()) {
-            cout << name << " has sunk!" << std::endl;
-        }
-
+        std::cout << name << " got hit!" << std::endl;
     }
     
     

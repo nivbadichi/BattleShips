@@ -3,7 +3,8 @@
 
 class HumanPlayer : public Player {
 public:
-    HumanPlayer(const char* name) : Player(name) {}
+    HumanPlayer(const char* name);
+    ~HumanPlayer() override;
 
     void placeAllShips() override;
     void makeMove(Player* opponent) override;
