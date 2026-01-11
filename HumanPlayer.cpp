@@ -4,6 +4,7 @@
 
 void HumanPlayer::getInput(int &row, int &col, bool &orientation)
 {
+    char orientChar;
     std::cout << "Enter row (1-10): ";
     std::cin >> row;
     while (row < 1 || row > 10)
@@ -21,11 +22,11 @@ void HumanPlayer::getInput(int &row, int &col, bool &orientation)
     }
     col--; // Adjust for 0-based index
     std::cout << "Enter orientation (H for horizontal, V for vertical): ";
-    std::cin >> orientation;
-    while (orientation != 'H' && orientation != 'h' && orientation != 'V' && orientation != 'v')
+    std::cin >> orientChar;
+    while (orientChar != 'H' && orientChar != 'h' && orientChar != 'V' && orientChar != 'v')
     {
         std::cout << "Invalid orientation. Try again." << std::endl;
-        std::cin >> orientation;
+        std::cin >> orientChar;
     }
     orientation = (orientChar == 'H' || orientChar == 'h');
 }
@@ -33,7 +34,6 @@ void HumanPlayer::getInput(int &row, int &col, bool &orientation)
 void HumanPlayer::manuallyPlaceAShip(int length, char symbol)
 {
     int row, col;
-    char orientation;
     bool placed = false;
     std::cout << "choose where to place";
     switch (length)
@@ -57,8 +57,8 @@ void HumanPlayer::manuallyPlaceAShip(int length, char symbol)
 
     while (!placed)
     {
-        getInput(row, col, orientation);
-        bool horizontal = (orientation == 'H' || orientation == 'h');
+        bool horizontal;
+        getInput(row, col, horizontal);
         if (!ocean.inBounds(row, col, length, horizontal))
         {
             std::cout << "Ship does not fit in the grid at that position. Try again." << std::endl;
@@ -73,6 +73,10 @@ void HumanPlayer::manuallyPlaceAShip(int length, char symbol)
         ocean.placeShip(row, col, length, horizontal, symbol);
         placed = true;
         ocean.printGrid(true);
+        //DEBUG
+        // std::cout << "Placed ship at (" << row + 1 << ", " << col + 1 << ") "
+        //           << (horizontal ? "horizontally." : "vertically.") << std::endl;
+        //Debug
     }
 }
 

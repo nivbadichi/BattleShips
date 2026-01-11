@@ -17,7 +17,6 @@ int main() {
     Player* p2 = new AiPlayer("Computer");
 
     p1->placeAllShips();
-    p1->getOcean().printGrid(true); // Show Human's ocean for
     p2->placeAllShips();
     p2->getOcean().printGrid(true); // Show AI's ocean for testing
 
