@@ -1,94 +1,97 @@
 #include <iostream>
 #include "Grid.hpp"
 #include "HumanPlayer.hpp"
-using namespace std;
 
 void HumanPlayer::getInput(int &row, int &col, bool &orientation)
 {
     char orientChar;
-    cout << "Enter row (1-10): ";
-    cin >> row;
+    std::cout << "Enter row (1-10): ";
+    std::cin >> row;
     while (row < 1 || row > 10)
     {
-        cout << "Invalid row. Try again." << endl;
-        cin >> row;
+        std::cout << "Invalid row. Try again." << std::endl;
+        std::cin >> row;
     }
     row--; // Adjust for 0-based index
-    cout << "Enter column (1-10): ";
-    cin >> col;
+    std::cout << "Enter column (1-10): ";
+    std::cin >> col;
     while (col < 1 || col > 10)
     {
-        cout << "Invalid column. Try again." << endl;
-        cin >> col;
+        std::cout << "Invalid column. Try again." << std::endl;
+        std::cin >> col;
     }
     col--; // Adjust for 0-based index
-    cout << "Enter orientation (H for horizontal, V for vertical): ";
-    cin >> orientChar;
+    std::cout << "Enter orientation (H for horizontal, V for vertical): ";
+    std::cin >> orientChar;
     while (orientChar != 'H' && orientChar != 'h' && orientChar != 'V' && orientChar != 'v')
     {
-        cout << "Invalid orientation. Try again." << endl;
-        cin >> orientChar;
+        std::cout << "Invalid orientation. Try again." << std::endl;
+        std::cin >> orientChar;
     }
     orientation = (orientChar == 'H' || orientChar == 'h');
 }
 
+void HumanPlayer::manuallyPlaceAShip(int length, char symbol)
+{
+    int row, col;
+    bool placed = false;
+    std::cout << "choose where to place";
+    switch (length)
+    {
+    case 5:
+        std::cout << " Carrier (length 5)" << std::endl;
+        break;
+    case 4:
+        std::cout << " Battleship (length 4)" << std::endl;
+        break;
+    case 3:
+        std::cout << " Cruiser (length 3)" << std::endl;
+        break;
+    case 2:
+        std::cout << " Destroyer (length 2)" << std::endl;
+        break;
+    default:
+        std::cout << " Ship (length " << length << ")" << std::endl;
+        break;
+    }
+
+    while (!placed)
+    {
+        bool horizontal;
+        getInput(row, col, horizontal);
+        if (!ocean.inBounds(row, col, length, horizontal))
+        {
+            std::cout << "Ship does not fit in the grid at that position. Try again." << std::endl;
+            continue;
+        }
+
+        if (!ocean.validatePlacement(row, col, length, horizontal))
+        {
+            std::cout << "Ship overlaps with another ship. Try again." << std::endl;
+            continue;
+        }
+        ocean.placeShip(row, col, length, horizontal, symbol);
+        placed = true;
+        ocean.printGrid(true);
+        //DEBUG
+        // std::cout << "Placed ship at (" << row + 1 << ", " << col + 1 << ") "
+        //           << (horizontal ? "horizontally." : "vertically.") << std::endl;
+        //Debug
+    }
+}
+
 void HumanPlayer::placeAllShips()
 {
-    cout << playerName << ", place your ships on the grid." << endl;
-    ocean.printGrid(true);
-
-    cout << "choose where to place Carrier (length 5)" << endl;
-    int row, col;
-    bool horizontal;
-    getInput(row, col, horizontal);
-    bool horizontal = (horizontal == 'H' || horizontal == 'h');
-    if (!ocean.validatePlacement(row, col, 5, horizontal))
+    std::cout << "Player " << playerName << ", place your ships on the grid." << std::endl;
+    const char symbols[5] = {'C', 'B', 'R', 'S', 'D'};
+    const int sizes[5] = {5, 4, 3, 3, 2};
+    for (int i = 0; i < 5; ++i)
     {
-        cout << "Invalid placement. Try again." << endl;
-        getInput(row, col, horizontal);
+        manuallyPlaceAShip(sizes[i], symbols[i]);
     }
-    this->ocean.placeShip(row, col, 5, horizontal, 'C');
-    ocean.printGrid(true);
+}
 
-    cout << "choose where to place Battleship (length 4)" << endl;
-    getInput(row, col, horizontal);
-    if (!ocean.validatePlacement(row, col, 4, horizontal))
-    {
-        cout << "Invalid placement. Try again." << endl;
-        getInput(row, col, horizontal);
-    }
-    this->ocean.placeShip(row, col, 4, horizontal, 'B');
-    ocean.printGrid(true);
-
-    cout << "choose where to place cruiser (length 3)" << endl;
-    getInput(row, col, horizontal);
-    if (!ocean.validatePlacement(row, col, 3, horizontal))
-    {
-        cout << "Invalid placement. Try again." << endl;
-        getInput(row, col, horizontal);
-    }
-    this->ocean.placeShip(row, col, 3, horizontal, 'R');
-    ocean.printGrid(true);
-
-    cout << "choose where to place Submarine (length 3)" << endl;
-    getInput(row, col, horizontal);
-    if (!ocean.validatePlacement(row, col, 3, horizontal))
-    {
-        cout << "Invalid placement. Try again." << endl;
-        getInput(row, col, horizontal);
-    }
-    this->ocean.placeShip(row, col, 3, horizontal, 'R');
-    ocean.printGrid(true);
-    
-    cout << "choose where to place Destroyer (length 2)" << endl;
-    getInput(row, col, horizontal);
-    if (!ocean.validatePlacement(row, col, 2, horizontal))
-    {
-        cout << "Invalid placement. Try again." << endl;
-        getInput(row, col, horizontal);
-    }
-    this->ocean.placeShip(row, col, 2, horizontal, 'D');
-    
-    // Repeat for other ships: Battleship (4), Cruiser (3), Submarine (3), Destroyer (2)
-
+void HumanPlayer::makeMove(Player *opponent)
+{
+    opponent->getOcean().printGrid(false);
 }
