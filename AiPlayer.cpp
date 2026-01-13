@@ -1,3 +1,12 @@
+/*======================================
+created by Alex Tkachenkov & Niv Badichi
+  ======================================*/
+
+
+
+
+
+
 #include "AiPlayer.hpp"
 #include <cstdlib>
 #include <ctime>

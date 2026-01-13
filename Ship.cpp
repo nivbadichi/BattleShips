@@ -1,3 +1,11 @@
+/*======================================
+created by Alex Tkachenkov & Niv Badichi
+  ======================================*/
+
+
+
+
+
 
 #include "Ship.hpp"
 #include <cstring>

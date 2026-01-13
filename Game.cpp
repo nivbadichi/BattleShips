@@ -1,3 +1,12 @@
+/*======================================
+created by Alex Tkachenkov & Niv Badichi
+  ======================================*/
+
+
+
+
+
+
 #include "Game.hpp"
 #include <iostream>
 #include <cstdlib>

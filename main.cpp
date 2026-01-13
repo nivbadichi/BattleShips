@@ -1,3 +1,12 @@
+/*======================================
+created by Alex Tkachenkov & Niv Badichi
+  ======================================*/
+
+
+
+
+
+
 #include <iostream>
 #include "Game.hpp"
 #include "HumanPlayer.hpp"
