@@ -1,34 +1,55 @@
-// THIS IS AN EXAMPLE!!! YOU CAN CHANGE IT
-
 #include <iostream>
-#include <cstdlib> // For std::rand(), std::srand()
-#include <ctime>   // For std::time()
-#include "Game.h"
-#include "HumanPlayer.h"
-#include "AiPlayer.h"
+#include "Game.hpp"
+#include "HumanPlayer.hpp"
+#include "AiPlayer.hpp"
+using namespace std;
 
-int main()
-{
-    // Seed the random number generator for AI placement and moves
-    // You need it to stay HERE when you use random in the AiPlayer class
-    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+int main() {
+    cout << "=== Welcome to Battleship ===" << endl;
+    cout << "Choose Game Mode:" << endl;
+    cout << "1. Human vs Human" << endl;
+    cout << "2. Human vs AI" << endl;
 
-    // Create two players: one human, one AI
-    Player *p1 = new HumanPlayer("Human");
-    Player *p2 = new AiPlayer("Computer");
+    int mode;
+    cin >> mode;
 
-    // Create the Game object with the two players
-    Game game(p1, p2);
+    if (mode != 1 && mode != 2) {
+        cout << "Invalid selection. Exiting game." << endl;
+        return 1;
+    }
 
-    // Set up the game (place all ships)
-    game.setup();
+    if (mode == 1) {
+        string name1, name2;
+        cout << "Enter name for Player 1: ";
+        cin >> name1;
+        cout << "Enter name for Player 2: ";
+        cin >> name2;
 
-    // Start the turn-by-turn gameplay
-    game.start();
+        HumanPlayer* p1 = new HumanPlayer(name1.c_str());
+        HumanPlayer* p2 = new HumanPlayer(name2.c_str());
 
-    // If needed, you could delete the players here, but assume Game or Player destructors handle cleanup.
-    // delete p1;
-    // delete p2;
+        Game game(p1, p2);
+        game.setup();
+        game.start();
 
+        delete p1;
+        delete p2;
+} else if (mode == 2) {
+        string name;
+        cout << "Enter your name: ";
+        cin >> name;
+
+        HumanPlayer* p1 = new HumanPlayer(name.c_str());
+        AiPlayer* p2 = new AiPlayer("Computer");
+
+        Game game(p1, p2);
+        game.setup();
+        game.start();
+
+        delete p1;
+        delete p2;
+    }
+
+    cout << "Thank you for playing Battleship!" << endl;
     return 0;
 }

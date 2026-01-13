@@ -1,6 +1,12 @@
 #include <iostream>
 #include "Grid.hpp"
 #include "HumanPlayer.hpp"
+#include "Ship.hpp"
+#include "Carrier.hpp"
+#include "Battleship.hpp"
+#include "Cruiser.hpp"
+#include "Submarine.hpp"
+#include "Destroyer.hpp"
 
 void HumanPlayer::getInput(int &row, int &col, bool &orientation)
 {
@@ -88,10 +94,70 @@ void HumanPlayer::placeAllShips()
     for (int i = 0; i < 5; ++i)
     {
         manuallyPlaceAShip(sizes[i], symbols[i]);
+
+        switch (symbols[i])
+        {
+            case 'C': ships[i] = new Carrier(); break;
+            case 'B': ships[i] = new Battleship(); break;
+            case 'R': ships[i] = new Cruiser(); break;
+            case 'S': ships[i] = new Submarine(); break;
+            case 'D': ships[i] = new Destroyer(); break;
+            default: ships[i] = nullptr; break;
     }
+
+}
+    std::cout << "All ships placed for " << playerName << "!" << std::endl;
 }
 
 void HumanPlayer::makeMove(Player *opponent)
 {
+    int row, col;
+    std::cout << "\n" << playerName << ", it's your turn to make a move." << std::endl;
+
     opponent->getOcean().printGrid(false);
+
+    std::cout << "enter target row (1-10): ";
+    std::cin >> row;
+    std::cout << "enter target column (1-10): ";
+    std::cin >> col;
+
+    row--; // Adjust for 0-based index
+    col--; // Adjust for 0-based index
+
+    char targetCell = opponent->getOcean().getCell(row, col);
+
+    if (targetCell == 'X' || targetCell == 'M')
+    {
+        std::cout << "You have already targeted this cell. Try again." << std::endl;
+        makeMove(opponent); // Retry move
+        return;
+    }
+
+    if (targetCell == 'S' || targetCell == 'C' || targetCell == 'B' || targetCell == 'R' || targetCell == 'D')
+    {
+        std::cout << "It's a hit!" << std::endl;
+        Ship* hitShip = opponent->getShipBySymbol(targetCell);
+        hitShip->takeHit();
+        opponent->getOcean().markHit(row, col);
+
+        if (hitShip->isSunk())
+        {
+            std::cout << "You sunk " << opponent->getName() << "'s " << hitShip->getName() << "!" << std::endl;
+        }
+    }
+
+    else
+    {
+        std::cout << "It's a miss." << std::endl;
+        opponent->getOcean().markMiss(row, col);
+    }
+
+    std::cout << "\nyour grid:\n";
+    ocean.printGrid(true);
+    std::cout << "\nopponent's grid:\n";
+    opponent->getOcean().printGrid(false);
+
+    std::cout << "\n------------------------------\n";
+    std::cout << "End of " << playerName << "'s turn." << std::endl;
+    std::cout << "------------------------------\n";
 }

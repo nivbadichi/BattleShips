@@ -107,39 +107,28 @@ char Grid::getCell(int row, int col) const                                      
 
 void Grid::printGrid(bool revealShips) const
 {
-    cout << "   ";
-    for (int col = 0; col < 10; col++)
+    cout << "    ";
+    for (int col = 1; col <= 10; col++)
     {
-        cout << col+1 << " ";
+        if (col < 10) cout << col << "  ";
+        else cout << col << " ";
     }
     cout << endl;
 
     for (int row = 0; row < 10; row++)
     {
-        cout << row+1 << "  ";
-        if (row!=9)
-        {
-            cout<< " ";
-        }
-        
+        if (row + 1 < 10)
+            cout << row + 1 << "  ";
+        else
+            cout << row + 1 << " ";
 
         for (int col = 0; col < 10; col++)
         {
             char cell = cells[row][col];
-
-            if (!revealShips)
-            {
-                if (cell == 'C' || cell == 'B' || cell == 'R' || cell == 'S' || cell == 'D')
-                {
-                    cout << "~ ";
-                }
-
-                else cout << cell << " ";
-            }
-
-            else cout << cell << " ";
+            if (!revealShips && (cell == 'C' || cell == 'B' || cell == 'R' || cell == 'S' || cell == 'D'))
+                cell = '~';
+            cout << cell << "  ";
         }
-
         cout << endl;
     }
 }
