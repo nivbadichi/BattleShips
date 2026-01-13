@@ -19,7 +19,7 @@ int main() {
     p1->placeAllShips();
     p2->placeAllShips();
     p1->getTarget().printGrid(true); // Show human's target grid   
-    std::cout << "--------------------------------"<<std::endl;
+    //std::cout << "--------------------------------"<<std::endl;
     p2->getOcean().printGrid(true); // Show AI's ocean for testing
 
 

@@ -17,6 +17,14 @@ int main()
     Player *p1 = new HumanPlayer("Human");
     Player *p2 = new AiPlayer("Computer");
 
+    // //TESTING SANDBOX for human and ai player functionality
+    // p1->placeAllShips();
+    // p2->placeAllShips();
+    // p1->getTarget().printGrid(true); // Show human's target grid   
+    // //std::cout << "--------------------------------"<<std::endl;
+    // p2->getOcean().printGrid(true); // Show AI's ocean for testing
+    //
+
     // Create the Game object with the two players
     Game game(p1, p2);
 

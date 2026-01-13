@@ -2,9 +2,8 @@
 #include "Grid.hpp"
 #include "HumanPlayer.hpp"
 
-void HumanPlayer::getInput(int &row, int &col, bool &orientation)
+void HumanPlayer::getInput(int &row, int &col) // save to 0 based index
 {
-    char orientChar;
     std::cout << "Enter row (1-10): ";
     std::cin >> row;
     while (row < 1 || row > 10)
@@ -21,6 +20,12 @@ void HumanPlayer::getInput(int &row, int &col, bool &orientation)
         std::cin >> col;
     }
     col--; // Adjust for 0-based index
+}
+
+void HumanPlayer::getInputForShipPlacement(int &row, int &col, bool &orientation)
+{
+    char orientChar;
+    getInput(row, col);
     std::cout << "Enter orientation (H for horizontal, V for vertical): ";
     std::cin >> orientChar;
     while (orientChar != 'H' && orientChar != 'h' && orientChar != 'V' && orientChar != 'v')
@@ -58,7 +63,7 @@ void HumanPlayer::manuallyPlaceAShip(int length, char symbol)
     while (!placed)
     {
         bool horizontal;
-        getInput(row, col, horizontal);
+        getInputForShipPlacement(row, col, horizontal);
         if (!ocean.inBounds(row, col, length, horizontal))
         {
             std::cout << "Ship does not fit in the grid at that position. Try again." << std::endl;
@@ -73,10 +78,10 @@ void HumanPlayer::manuallyPlaceAShip(int length, char symbol)
         ocean.placeShip(row, col, length, horizontal, symbol);
         placed = true;
         ocean.printGrid(true);
-        //DEBUG
-        // std::cout << "Placed ship at (" << row + 1 << ", " << col + 1 << ") "
-        //           << (horizontal ? "horizontally." : "vertically.") << std::endl;
-        //Debug
+        // DEBUG
+        //  std::cout << "Placed ship at (" << row + 1 << ", " << col + 1 << ") "
+        //            << (horizontal ? "horizontally." : "vertically.") << std::endl;
+        // Debug
     }
 }
 
@@ -93,5 +98,40 @@ void HumanPlayer::placeAllShips()
 
 void HumanPlayer::makeMove(Player *opponent)
 {
-    opponent->getOcean().printGrid(false);
+    int row, col;
+    std::cout << playerName << ", it's your turn to make a move." << std::endl
+              << "Here's what you know:" << std::endl;
+    target.printGrid(true);
+    getInput(row, col);
+    while (target.isTileOccupied(row, col))
+    {
+        std::cout << "You have already fired at this location. Choose again." << std::endl;
+        getInput(row, col);
+    }
+    char result = opponent->getOcean()->getCell(row, col);
+    // check if there was a ship
+    if (IsCharShip(result))
+    {
+        target.markHit(row, col);
+        std::cout << "direct hit!" << std::endl;
+        markHit(opponent->getShipBySymbol(result));
+        /*in case we want to print that a ship was sunk
+        if (getShipBySymbol(result)->isSunk)
+        {
+            std::cout << "Ship sunk!" << std::endl;
+        }
+        */
+    }
+    else
+    {
+        target.markMiss(row,col);
+        //
+        // do we mark the opponent's board to show misses? is that necessary?
+        //
+        std::cout << "Shot wide!" << std::endl << "You missed!" << std::endl;
+    }
+    std::cout << "Updated target grid:" << std::endl;
+    target.printGrid(true);
+    std::cout << "Your Current grid:" << std::endl;
+    ocean.printGrid(true);
 }

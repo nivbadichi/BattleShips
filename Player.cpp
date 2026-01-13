@@ -14,7 +14,6 @@ Player::Player(const char* name) {
     }
 }
 
-
 Player::~Player() {
     delete[] playerName;
 
@@ -22,7 +21,6 @@ Player::~Player() {
         delete ships[i];
     }
 }
-
 
 
 bool Player::allShipsSunk() const
@@ -43,6 +41,11 @@ bool Player::allShipsSunk() const
     return true;
 }
 
+bool IsCharShip(const char& Ship)
+{
+    (Ship == C || Ship == c || Ship == R || Ship == r || Ship == S || Ship == s || Ship == R|| Ship == r || Ship == D|| Ship == d) ? return true : rturn false;
+}
+
 const char* Player::getName() const {
     return playerName;
 }
@@ -50,10 +53,15 @@ const char* Player::getName() const {
 Ship* Player::getShipBySymbol(char symbol) const {
     switch (symbol) {
         case 'C': return ships[0]; // Carrier
+        case 'c': return ships[0]; // Carrier
         case 'B': return ships[1]; // Battleship
+        case 'b': return ships[1]; // Battleship
         case 'R': return ships[2]; // Cruiser
+        case 'r': return ships[2]; // Cruiser
         case 'S': return ships[3]; // Submarine
+        case 's': return ships[3]; // Submarine
         case 'D': return ships[4]; // Destroyer
+        case 'd': return ships[4]; // Destroyer
         default: return nullptr; // No ship corresponds to this symbol 
             
     }

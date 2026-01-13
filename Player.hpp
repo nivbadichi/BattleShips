@@ -18,7 +18,7 @@ class Player {
         virtual void makeMove(Player* opponent) = 0; // Pure virtual function for taking a turn
 
         bool allShipsSunk() const; // Returns true if all ships are sunk
-
+        bool IsCharShip(const char& Ship);
         // getters
         const char* getName() const; // Returns playerName
         Ship* getShipBySymbol(char symbol) const; // Returns pointer to ship based on symbol
