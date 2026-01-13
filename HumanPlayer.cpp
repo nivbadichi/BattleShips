@@ -7,6 +7,12 @@
 #include "Cruiser.hpp"
 #include "Submarine.hpp"
 #include "Destroyer.hpp"
+#include <chrono>
+#include <thread>
+#define SLEEP_DURATION 4000 // milliseconds
+#define DelayMode true
+#define SLEEP std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_DURATION));
+
 
 void HumanPlayer::getInput(int &row, int &col, bool &orientation)
 {
@@ -107,6 +113,7 @@ void HumanPlayer::placeAllShips()
 
 }
     std::cout << "All ships placed for " << playerName << "!" << std::endl;
+    if (DelayMode) SLEEP
 }
 
 void HumanPlayer::makeMove(Player *opponent)
@@ -123,6 +130,7 @@ void HumanPlayer::makeMove(Player *opponent)
 
     row--; // Adjust for 0-based index
     col--; // Adjust for 0-based index
+    if (DelayMode) SLEEP
 
     char targetCell = opponent->getOcean().getCell(row, col);
 
@@ -139,6 +147,7 @@ void HumanPlayer::makeMove(Player *opponent)
         Ship* hitShip = opponent->getShipBySymbol(targetCell);
         hitShip->takeHit();
         opponent->getOcean().markHit(row, col);
+        if (DelayMode) SLEEP
 
         if (hitShip->isSunk())
         {
@@ -150,14 +159,17 @@ void HumanPlayer::makeMove(Player *opponent)
     {
         std::cout << "It's a miss." << std::endl;
         opponent->getOcean().markMiss(row, col);
+        if (DelayMode) SLEEP
     }
 
     std::cout << "\nyour grid:\n";
     ocean.printGrid(true);
     std::cout << "\nopponent's grid:\n";
     opponent->getOcean().printGrid(false);
+    if (DelayMode) SLEEP
 
     std::cout << "\n------------------------------\n";
     std::cout << "End of " << playerName << "'s turn." << std::endl;
     std::cout << "------------------------------\n";
+    if (DelayMode) SLEEP
 }

@@ -3,6 +3,11 @@
 #include <ctime>
 #include <iostream>
 using namespace std;
+#include <chrono>
+#include <thread>
+#define SLEEP_DURATION 4000 // milliseconds
+#define DelayMode true
+#define SLEEP std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_DURATION));
 
 
 
@@ -60,6 +65,11 @@ void AiPlayer::makeMove(Player* opponent) {
     bool validShot = false;
     int row, col;
 
+    if (DelayMode) {
+        std::cout << "Ai is making its move..." << std::endl;
+        SLEEP
+    }
+
     while (!validShot) {
         row = getRandomcoordinate();
         col = getRandomcoordinate();
@@ -72,6 +82,11 @@ void AiPlayer::makeMove(Player* opponent) {
         validShot = true;
     }
 
+    if (DelayMode) {
+        std::cout << "Ai targets (" << row << ", " << col << ")." << std::endl;
+        SLEEP
+    }
+
     char opponentCell = opponent->getOcean().getCell(row, col);
 
     if (opponentCell == 'C' || opponentCell == 'B' || opponentCell == 'R' || opponentCell == 'S' || opponentCell == 'D') {
@@ -81,8 +96,13 @@ void AiPlayer::makeMove(Player* opponent) {
         if (hitShip) {
             hitShip->takeHit();
 
+            if (DelayMode) {
+                std::cout << "Ai scored a hit!" << std::endl;
+                SLEEP
+            }
             if (hitShip->isSunk()) {
                 std::cout << "Ai has sunk your " << hitShip->getName() << "!" << std::endl;
+                if (DelayMode) SLEEP
             }
         }
     }
@@ -90,5 +110,6 @@ void AiPlayer::makeMove(Player* opponent) {
         opponent->getOcean().markMiss(row, col);
         target.markMiss(row, col);
         std::cout << "Ai missed at (" << row << ", " << col << ")." << std::endl;
+        if (DelayMode) SLEEP
     }
 }
