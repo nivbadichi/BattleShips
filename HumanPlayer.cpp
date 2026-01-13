@@ -108,13 +108,13 @@ void HumanPlayer::makeMove(Player *opponent)
         std::cout << "You have already fired at this location. Choose again." << std::endl;
         getInput(row, col);
     }
-    char result = opponent->getOcean()->getCell(row, col);
+    char result = opponent->getOcean().getCell(row, col);
     // check if there was a ship
     if (IsCharShip(result))
     {
         target.markHit(row, col);
         std::cout << "direct hit!" << std::endl;
-        markHit(opponent->getShipBySymbol(result));
+        opponent->getShipBySymbol(result)->takeHit();
         /*in case we want to print that a ship was sunk
         if (getShipBySymbol(result)->isSunk)
         {

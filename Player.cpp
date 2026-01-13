@@ -43,7 +43,10 @@ bool Player::allShipsSunk() const
 
 bool IsCharShip(const char& Ship)
 {
-    (Ship == C || Ship == c || Ship == R || Ship == r || Ship == S || Ship == s || Ship == R|| Ship == r || Ship == D|| Ship == d) ? return true : rturn false;
+    if (Ship == 'C' || Ship == 'c' || Ship == 'B' || Ship == 'b' || Ship == 'R' || Ship == 'r' || Ship == 'S' || Ship == 's' || Ship == 'D'|| Ship == 'd')
+    {return true;}
+    else
+    {return false;}
 }
 
 const char* Player::getName() const {
