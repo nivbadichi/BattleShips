@@ -113,25 +113,30 @@ void HumanPlayer::makeMove(Player *opponent)
     if (IsCharShip(result))
     {
         target.markHit(row, col);
-        std::cout << "direct hit!" << std::endl;
-        opponent->getShipBySymbol(result)->takeHit();
-        /*in case we want to print that a ship was sunk
-        if (getShipBySymbol(result)->isSunk)
+        std::cout << "Direct hit, Cap'n!" << std::endl;
+        Ship *hitShip = opponent->getShipBySymbol(result);
+        if (hitShip)
         {
-            std::cout << "Ship sunk!" << std::endl;
+            hitShip->takeHit();
+            /*if we want to print that the ship was sunk
+            if (hitShip->isSunk()) {
+                std::cout << "Ship sunk!" << std::endl;
+            }
+            */
         }
-        */
     }
     else
     {
-        target.markMiss(row,col);
+        target.markMiss(row, col);
         //
         // do we mark the opponent's board to show misses? is that necessary?
         //
-        std::cout << "Shot wide!" << std::endl << "You missed!" << std::endl;
+        std::cout << "Shot wide!" << std::endl
+                  << "You missed!" << std::endl;
     }
     std::cout << "Updated target grid:" << std::endl;
     target.printGrid(true);
     std::cout << "Your Current grid:" << std::endl;
     ocean.printGrid(true);
+    std::cout << "<------------------------------------------->" << std::endl;
 }
