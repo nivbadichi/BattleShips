@@ -1,4 +1,12 @@
 #pragma once
+
+//in this project, possible ships:
+// C||c Carrier (size = 5)
+// B||b Battleship (size = 4)
+// R||r Cruiser (size = 3)
+// S||s Submarine (size = 3)
+// D||d Destroyer (size = 2)
+
 class Ship
 {
 private:

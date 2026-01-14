@@ -1,37 +1,61 @@
 #include <iostream>
+#include <limits> // Required for numeric_limits
 #include "Grid.hpp"
 #include "HumanPlayer.hpp"
 
-void HumanPlayer::getInput(int &row, int &col, bool &orientation)
+void HumanPlayer::getInput(int &row, int &col) // save to 0 based index
 {
-    char orientChar;
     std::cout << "Enter row (1-10): ";
     std::cin >> row;
-    while (row < 1 || row > 10)
+    while (std::cin.fail() || row < 1 || row > 10)
     {
         std::cout << "Invalid row. Try again." << std::endl;
+        // 1. Fix the stream
+        std::cin.clear();
+
+        // 2. Ignore the rest of the current line (up to \n)
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
         std::cin >> row;
     }
     row--; // Adjust for 0-based index
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
     std::cout << "Enter column (1-10): ";
     std::cin >> col;
-    while (col < 1 || col > 10)
+    while (std::cin.fail() || col < 1 || col > 10)
     {
         std::cout << "Invalid column. Try again." << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cin >> col;
     }
     col--; // Adjust for 0-based index
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    return;
+}
+
+void HumanPlayer::getInputForShipPlacement(int &row, int &col, bool &orientation)
+{
+    char orientChar;
+    getInput(row, col);
     std::cout << "Enter orientation (H for horizontal, V for vertical): ";
     std::cin >> orientChar;
     while (orientChar != 'H' && orientChar != 'h' && orientChar != 'V' && orientChar != 'v')
     {
         std::cout << "Invalid orientation. Try again." << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cin >> orientChar;
     }
     orientation = (orientChar == 'H' || orientChar == 'h');
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
-void HumanPlayer::manuallyPlaceAShip(int length, char symbol)
+void HumanPlayer::manuallyPlaceAShip(int length, const char *symbol)
 {
     int row, col;
     bool placed = false;
@@ -58,7 +82,7 @@ void HumanPlayer::manuallyPlaceAShip(int length, char symbol)
     while (!placed)
     {
         bool horizontal;
-        getInput(row, col, horizontal);
+        getInputForShipPlacement(row, col, horizontal);
         if (!ocean.inBounds(row, col, length, horizontal))
         {
             std::cout << "Ship does not fit in the grid at that position. Try again." << std::endl;
@@ -70,20 +94,20 @@ void HumanPlayer::manuallyPlaceAShip(int length, char symbol)
             std::cout << "Ship overlaps with another ship. Try again." << std::endl;
             continue;
         }
-        ocean.placeShip(row, col, length, horizontal, symbol);
+        ocean.placeShip(row, col, length, horizontal, symbol[0]);
         placed = true;
         ocean.printGrid(true);
-        //DEBUG
-        // std::cout << "Placed ship at (" << row + 1 << ", " << col + 1 << ") "
-        //           << (horizontal ? "horizontally." : "vertically.") << std::endl;
-        //Debug
+        // DEBUG
+        //  std::cout << "Placed ship at (" << row + 1 << ", " << col + 1 << ") "
+        //            << (horizontal ? "horizontally." : "vertically.") << std::endl;
+        // Debug
     }
 }
 
 void HumanPlayer::placeAllShips()
 {
     std::cout << "Player " << playerName << ", place your ships on the grid." << std::endl;
-    const char symbols[5] = {'C', 'B', 'R', 'S', 'D'};
+    const char *symbols[5] = {"C", "B", "R", "S", "D"};
     const int sizes[5] = {5, 4, 3, 3, 2};
     for (int i = 0; i < 5; ++i)
     {
@@ -93,5 +117,52 @@ void HumanPlayer::placeAllShips()
 
 void HumanPlayer::makeMove(Player *opponent)
 {
-    opponent->getOcean().printGrid(false);
+    int row, col;
+    std::cout << playerName << ", it's your turn to make a move." << std::endl
+              << "Here's what you know:" << std::endl;
+    target.printGrid(true);
+    getInput(row, col);
+    while (target.isTileOccupied(row, col))
+    {
+        std::cout << "You have already fired at this location. Choose again." << std::endl;
+        getInput(row, col);
+    }
+    char result = opponent->getOcean().getCell(row, col);
+    // debug
+    std::cout <<"IN HUMANPLAYER.CPP makeMove():"<<std::endl<< "You fired at (" << row + 1 << ", " << col + 1 << ") and got '" << result << "'." << std::endl;
+    //
+    // check if there was a ship
+    if (IsCharShip(result))
+    {
+        target.markHit(row, col);
+        std::cout << "Direct hit, Cap'n!" << std::endl;
+        opponent->getOcean().markHit(row, col);
+        Ship *hitShip = opponent->getShipBySymbol(result); // currently leads to segfault
+        // debug
+        //std::cout << "You hit opponent's " << hitShip->getName() << "!" << std::endl;
+        //
+        if (hitShip)
+        {
+            hitShip->takeHit();
+            // if we want to print that the ship was sunk
+            //
+            if (hitShip->isSunk())
+            {
+                std::cout << "Ship sunk!" << std::endl;
+            }
+            //
+        }
+    }
+    else
+    {
+        target.markMiss(row, col);
+        opponent->getOcean().markMiss(row, col);
+        std::cout << "Shot wide!" << std::endl
+                  << "You missed!" << std::endl;
+    }
+    std::cout << "Updated target grid:" << std::endl;
+    target.printGrid(true);
+    std::cout << "Your Current grid:" << std::endl;
+    ocean.printGrid(true);
+    std::cout << "<------------------------------------------->" << std::endl;
 }

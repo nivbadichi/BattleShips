@@ -107,7 +107,7 @@ char Grid::getCell(int row, int col) const                                      
 
 void Grid::printGrid(bool revealShips) const
 {
-    cout << "   ";
+    cout << "    ";
     for (int col = 0; col < 10; col++)
     {
         cout << col+1 << " ";
