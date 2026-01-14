@@ -7,6 +7,7 @@ class Game {
     
     public:
     Game(Player* p1, Player* p2);   //Assigns two player objects (e.g., HumanPlayer vs. AiPlayer).
+    ~Game();                        //Cleans up allocated memory for player1 and player2.
     void setup();                   //Calls player1->placeAllShips();, then player2->placeAllShips();.
     void start();                   //Loop until one side is fully sunk:
     //player1->makeMove(player2);     
