@@ -18,34 +18,37 @@ int main()
     Player *p2 = new AiPlayer("Computer");
 
     // //TESTING SANDBOX for human and ai player functionality
-    p1->placeAllShips();
-    p2->placeAllShips();
-    p1->getTarget().printGrid(true); // Show human's target grid
-    // std::cout << "--------------------------------"<<std::endl;
-    p2->getOcean().printGrid(true); // Show AI's ocean for testing
-    p1->makeMove(p2);
-    p1->makeMove(p2);
-    p1->makeMove(p2);
-
-    p1->makeMove(p2);
-
-    p1->makeMove(p2);
-
-    p1->makeMove(p2);
-
-    p1->makeMove(p2);
-
-    p1->makeMove(p2);
-
-    p1->makeMove(p2);
-
-    p1->makeMove(p2);
-
-    p1->makeMove(p2);
-
-    p1->makeMove(p2);
-
+    // p1->placeAllShips();
+    // p2->placeAllShips();
+    // p1->getTarget().printGrid(true); // Show human's target grid
+    // // std::cout << "--------------------------------"<<std::endl;
+    // p2->getOcean().printGrid(true); // Show AI's ocean for testing
+    // p1->makeMove(p2);
+    // p1->makeMove(p2);
+    // p1->makeMove(p2);
+    // p1->makeMove(p2);
+    // p1->makeMove(p2);
+    // p1->makeMove(p2);
+    // p1->makeMove(p2);
+    // p1->makeMove(p2);
+    // p1->makeMove(p2);
+    // p1->makeMove(p2);
+    // p1->makeMove(p2);
+    // p1->makeMove(p2);
     //
+
+     // Create the Game object with the two players
+    Game game(p1, p2);
+
+    // Set up the game (place all ships)
+    game.setup();
+
+    // Start the turn-by-turn gameplay
+    game.start();
+
+    // If needed, you could delete the players here, but assume Game or Player destructors handle cleanup.
+    // delete p1;
+    // delete p2;
 
     return 0;
 }
