@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits> // Required for numeric_limits
 #include "Grid.hpp"
 #include "HumanPlayer.hpp"
 
@@ -6,20 +7,34 @@ void HumanPlayer::getInput(int &row, int &col) // save to 0 based index
 {
     std::cout << "Enter row (1-10): ";
     std::cin >> row;
-    while (row < 1 || row > 10)
+    while (std::cin.fail() || row < 1 || row > 10)
     {
         std::cout << "Invalid row. Try again." << std::endl;
+        // 1. Fix the stream
+        std::cin.clear();
+
+        // 2. Ignore the rest of the current line (up to \n)
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
         std::cin >> row;
     }
     row--; // Adjust for 0-based index
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
     std::cout << "Enter column (1-10): ";
     std::cin >> col;
-    while (col < 1 || col > 10)
+    while (std::cin.fail() || col < 1 || col > 10)
     {
         std::cout << "Invalid column. Try again." << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cin >> col;
     }
     col--; // Adjust for 0-based index
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    return;
 }
 
 void HumanPlayer::getInputForShipPlacement(int &row, int &col, bool &orientation)
@@ -31,12 +46,16 @@ void HumanPlayer::getInputForShipPlacement(int &row, int &col, bool &orientation
     while (orientChar != 'H' && orientChar != 'h' && orientChar != 'V' && orientChar != 'v')
     {
         std::cout << "Invalid orientation. Try again." << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cin >> orientChar;
     }
     orientation = (orientChar == 'H' || orientChar == 'h');
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
-void HumanPlayer::manuallyPlaceAShip(int length, char symbol)
+void HumanPlayer::manuallyPlaceAShip(int length, const char *symbol)
 {
     int row, col;
     bool placed = false;
@@ -75,7 +94,7 @@ void HumanPlayer::manuallyPlaceAShip(int length, char symbol)
             std::cout << "Ship overlaps with another ship. Try again." << std::endl;
             continue;
         }
-        ocean.placeShip(row, col, length, horizontal, symbol);
+        ocean.placeShip(row, col, length, horizontal, symbol[0]);
         placed = true;
         ocean.printGrid(true);
         // DEBUG
@@ -88,7 +107,7 @@ void HumanPlayer::manuallyPlaceAShip(int length, char symbol)
 void HumanPlayer::placeAllShips()
 {
     std::cout << "Player " << playerName << ", place your ships on the grid." << std::endl;
-    const char symbols[5] = {'C', 'B', 'R', 'S', 'D'};
+    const char *symbols[5] = {"C", "B", "R", "S", "D"};
     const int sizes[5] = {5, 4, 3, 3, 2};
     for (int i = 0; i < 5; ++i)
     {
@@ -109,20 +128,28 @@ void HumanPlayer::makeMove(Player *opponent)
         getInput(row, col);
     }
     char result = opponent->getOcean().getCell(row, col);
+    // debug
+    std::cout << "You fired at (" << row + 1 << ", " << col + 1 << ") and got '" << result << "'." << std::endl;
+    //
     // check if there was a ship
     if (IsCharShip(result))
     {
         target.markHit(row, col);
         std::cout << "Direct hit, Cap'n!" << std::endl;
-        Ship *hitShip = opponent->getShipBySymbol(result);
+        Ship *hitShip = opponent->getShipBySymbol(result); // currently leads to segfault
+        // debug
+        //std::cout << "You hit opponent's " << hitShip->getName() << "!" << std::endl;
+        //
         if (hitShip)
         {
             hitShip->takeHit();
-            /*if we want to print that the ship was sunk
-            if (hitShip->isSunk()) {
+            // if we want to print that the ship was sunk
+            //
+            if (hitShip->isSunk())
+            {
                 std::cout << "Ship sunk!" << std::endl;
             }
-            */
+            //
         }
     }
     else

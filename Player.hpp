@@ -21,7 +21,7 @@ class Player {
         bool IsCharShip(const char& Ship);
         // getters
         const char* getName() const; // Returns playerName
-        Ship* getShipBySymbol(char symbol) const; // Returns pointer to ship based on symbol
+        Ship* getShipBySymbol(char symbol); // Returns pointer to ship based on symbol
         Grid& getOcean(); // Returns reference to ocean grid
         Grid& getTarget(); // Returns reference to target grid
 
