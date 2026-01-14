@@ -26,23 +26,14 @@ int main()
     p1->makeMove(p2);
     p1->makeMove(p2);
     p1->makeMove(p2);
-
     p1->makeMove(p2);
-
     p1->makeMove(p2);
-
     p1->makeMove(p2);
-
     p1->makeMove(p2);
-
     p1->makeMove(p2);
-
     p1->makeMove(p2);
-
     p1->makeMove(p2);
-
     p1->makeMove(p2);
-
     p1->makeMove(p2);
 
     //
