@@ -32,11 +32,17 @@ void Game::start() // Loop until one side is fully sunk:
 
 bool Game::isGameOver() const // Returns true if player1->allShipsSunk() or player2->allShipsSunk().
 {
+    // debug
+    std::cout <<"IN GAME.CPP isGameOver():"<<std::endl<< "Checking if game is over on HUMAN"<<std::endl;
+    //
     if (player2->allShipsSunk())
     {
         std::cout << player1->getName() << " has sunken all of " << player2->getName() << "'s ships!" << std::endl;
         return true;
     }
+    // debug
+    std::cout <<"IN GAME.CPP isGameOver():"<<std::endl<< "Checking if game is over on AI"<<std::endl;
+    //
     if (player1->allShipsSunk())
     {
         std::cout << player2->getName() << " has sunken all of " << player1->getName() << "'s ships!" << std::endl;

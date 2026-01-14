@@ -1,5 +1,10 @@
 #pragma once
 #include "Ship.hpp"
+#include "Battleship.hpp"
+#include "Carrier.hpp"
+#include "Cruiser.hpp"
+#include "Destroyer.hpp"
+#include "Submarine.hpp"
 #include "Grid.hpp"
 
 class Player {

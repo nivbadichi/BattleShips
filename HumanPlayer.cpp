@@ -129,13 +129,14 @@ void HumanPlayer::makeMove(Player *opponent)
     }
     char result = opponent->getOcean().getCell(row, col);
     // debug
-    std::cout << "You fired at (" << row + 1 << ", " << col + 1 << ") and got '" << result << "'." << std::endl;
+    std::cout <<"IN HUMANPLAYER.CPP makeMove():"<<std::endl<< "You fired at (" << row + 1 << ", " << col + 1 << ") and got '" << result << "'." << std::endl;
     //
     // check if there was a ship
     if (IsCharShip(result))
     {
         target.markHit(row, col);
         std::cout << "Direct hit, Cap'n!" << std::endl;
+        opponent->getOcean().markHit(row, col);
         Ship *hitShip = opponent->getShipBySymbol(result); // currently leads to segfault
         // debug
         //std::cout << "You hit opponent's " << hitShip->getName() << "!" << std::endl;
@@ -155,9 +156,7 @@ void HumanPlayer::makeMove(Player *opponent)
     else
     {
         target.markMiss(row, col);
-        //
-        // do we mark the opponent's board to show misses? is that necessary?
-        //
+        opponent->getOcean().markMiss(row, col);
         std::cout << "Shot wide!" << std::endl
                   << "You missed!" << std::endl;
     }

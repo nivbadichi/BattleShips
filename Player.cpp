@@ -5,15 +5,22 @@ using namespace std;
 
 Player::Player(const char *name)
 {
-    const char* symbols[5] = {"C", "B", "R", "S", "D"};
-    const int sizes[5] = {5, 4, 3, 3, 2};
-    for (int i = 0; i < 5; ++i)
-    {
-        // debug
-        //std::cout << "IN PLAYER.CPP CONSTRUCTOR" << std::endl                  << "Creating ship: " << symbols[i] << " of size " << sizes[i] << std::endl;
-        //
-        ships[i] = new Ship(symbols[i], sizes[i]);
-    }
+    ships[0] = new Carrier();
+    ships[1] = new Battleship();
+    ships[2] = new Cruiser();
+    ships[3] = new Submarine();
+    ships[4] = new Destroyer();
+
+
+    // const char* symbols[5] = {"C", "B", "R", "S", "D"};
+    // const int sizes[5] = {5, 4, 3, 3, 2};
+    // for (int i = 0; i < 5; ++i)
+    // {
+    //     // debug
+    //     //std::cout << "IN PLAYER.CPP CONSTRUCTOR" << std::endl                  << "Creating ship: " << symbols[i] << " of size " << sizes[i] << std::endl;
+    //     //
+    //     ships[i] = new Ship(symbols[i], sizes[i]);
+    // }
     playerName = new char[strlen(name) + 1];
     strcpy(playerName, name);
 }
@@ -30,6 +37,9 @@ Player::~Player()
 
 bool Player::allShipsSunk() const
 {
+    // debug
+    //std::cout << "IN PLAYER,CPP allShipsSunk():" << std::endl << "checking ships status..."<<std::endl;
+    //
     for (int i = 0; i < 5; i++)
     {
         if (ships[i] == nullptr)
