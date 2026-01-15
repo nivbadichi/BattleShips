@@ -8,8 +8,8 @@ created by Alex Tkachenkov & Niv Badichi
 #include <iostream>
 #include <chrono>
 #include <thread>
-#define SLEEP std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-#define DelayMode false
+#define SLEEP std::this_thread::sleep_for(std::chrono::milliseconds(4000));
+#define DelayMode true
 using namespace std;
 
 AiPlayer::AiPlayer(const char *name) : Player(name)

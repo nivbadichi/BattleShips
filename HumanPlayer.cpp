@@ -8,8 +8,9 @@ created by Alex Tkachenkov & Niv Badichi
 #include "HumanPlayer.hpp"
 #include <chrono>
 #include <thread>
-#define SLEEP std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-#define DelayMode false
+#define SLEEP std::this_thread::sleep_for(std::chrono::milliseconds(4000));
+#define DelayMode true
+using namespace std;
 
 void HumanPlayer::getInput(int &row, int &col) // save to 0 based index
 {
