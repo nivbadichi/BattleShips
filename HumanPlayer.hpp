@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*======================================
 created by Alex Tkachenkov & Niv Badichi
   ======================================*/
@@ -18,3 +19,17 @@ public:
     void makeMove(Player* opponent) override;
     void getInput(int &row, int &col, bool &orientation);
 };
+=======
+#pragma once
+#include "Player.hpp"
+
+class HumanPlayer : public Player {
+public:
+    HumanPlayer(const char* name) : Player(name) {}
+    void manuallyPlaceAShip(int length, const char *symbol);
+    void placeAllShips() override;
+    void makeMove(Player* opponent) override;
+    void getInput(int &row, int&col);
+    void getInputForShipPlacement(int &row, int &col, bool &orientation);
+};
+>>>>>>> origin/main

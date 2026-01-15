@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*======================================
 created by Alex Tkachenkov & Niv Badichi
   ======================================*/
@@ -16,3 +17,14 @@ public:
     Destroyer();
     ~Destroyer() override;
 };
+=======
+#pragma once
+#include "Ship.hpp"
+
+
+class Destroyer : public Ship {
+public:
+    Destroyer();
+    ~Destroyer() override;
+};
+>>>>>>> origin/main

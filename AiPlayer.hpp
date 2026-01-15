@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*======================================
 created by Alex Tkachenkov & Niv Badichi
   ======================================*/
@@ -20,4 +21,19 @@ public:
 private:
     int getRandomcoordinate() const;
     bool getRandomBoolean() const;
+=======
+#pragma once
+#include "Player.hpp"
+
+class AiPlayer : public Player {
+public:
+    AiPlayer(const char* name);
+    ~AiPlayer() override;
+
+    void placeAllShips() override;
+    void makeMove(Player* opponent) override;
+private:
+    int getRandomcoordinate() const;
+    bool getRandomBoolean() const;
+>>>>>>> origin/main
 };

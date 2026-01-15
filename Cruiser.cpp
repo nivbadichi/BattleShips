@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*======================================
 created by Alex Tkachenkov & Niv Badichi
   ======================================*/
@@ -12,4 +13,11 @@ created by Alex Tkachenkov & Niv Badichi
 Cruiser::Cruiser() : Ship("Cruiser", 3) {
 }
 Cruiser::~Cruiser() {
+=======
+#include "Cruiser.hpp"
+
+Cruiser::Cruiser() : Ship("Cruiser", 3) {
+}
+Cruiser::~Cruiser() {
+>>>>>>> origin/main
 }

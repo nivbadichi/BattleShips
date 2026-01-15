@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*======================================
 created by Alex Tkachenkov & Niv Badichi
   ======================================*/
@@ -12,4 +13,11 @@ created by Alex Tkachenkov & Niv Badichi
 Battleship::Battleship() : Ship("Battleship", 4) {
 }
 Battleship::~Battleship() {
+=======
+#include "Battleship.hpp"
+
+Battleship::Battleship() : Ship("Battleship", 4) {
+}
+Battleship::~Battleship() {
+>>>>>>> origin/main
 } 

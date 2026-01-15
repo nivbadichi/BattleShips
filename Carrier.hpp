@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*======================================
 created by Alex Tkachenkov & Niv Badichi
   ======================================*/
@@ -15,3 +16,13 @@ public:
     Carrier();
     ~Carrier() override;
 };
+=======
+#pragma once
+#include "Ship.hpp"
+
+class Carrier : public Ship {
+public:
+    Carrier();
+    ~Carrier() override;
+};
+>>>>>>> origin/main

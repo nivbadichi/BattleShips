@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*======================================
 created by Alex Tkachenkov & Niv Badichi
   ======================================*/
@@ -12,4 +13,11 @@ created by Alex Tkachenkov & Niv Badichi
 Carrier::Carrier() : Ship("Carrier", 5) {
 }
 Carrier::~Carrier() {
+=======
+#include "Carrier.hpp"
+
+Carrier::Carrier() : Ship("Carrier", 5) {
+}
+Carrier::~Carrier() {
+>>>>>>> origin/main
 }

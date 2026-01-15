@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*======================================
 created by Alex Tkachenkov & Niv Badichi
   ======================================*/
@@ -16,3 +17,14 @@ public:
     Battleship();
     ~Battleship() override;
 };
+=======
+#pragma once
+#include "Ship.hpp"
+
+class Battleship : public Ship
+{
+public:
+    Battleship();
+    ~Battleship() override;
+};
+>>>>>>> origin/main
