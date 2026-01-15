@@ -41,8 +41,15 @@ int main() {
         game.setup();
         game.start();
 
-        delete p1;
-        delete p2;
+        // //debug
+        // std::cout <<"IN MAIN.CPP after game.start()"<<endl;
+        // std::cout <<"Human V HumanGame ended, Deleting players"<<endl;
+        // //
+        // delete p1;
+        // delete p2;
+        // //debug
+        // std::cout << "Players deleted." << std::endl;
+        
 } else if (mode == 2) {
         string name;
         cout << "Enter your name: ";
@@ -54,9 +61,16 @@ int main() {
         Game game(p1, p2);
         game.setup();
         game.start();
-
-        delete p1;
-        delete p2;
+        
+        // //debug
+        // std::cout <<"IN MAIN.CPP after game.start()"<<endl;
+        // std::cout <<"Human V AIGame ended, Deleting players"<<endl;
+        // //
+        // delete p1;
+        // delete p2;
+        // //debug
+        // std::cout << "Players deleted." << std::endl;
+        // //
     }
 
     cout << "Thank you for playing Battleship!" << endl;
