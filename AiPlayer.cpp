@@ -2,15 +2,14 @@
 created by Alex Tkachenkov & Niv Badichi
   ======================================*/
 
-
 #include "AiPlayer.hpp"
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
 #include <chrono>
 #include <thread>
-#define SLEEP std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-#define DelayMode true
+#define SLEEP std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+#define DelayMode false
 using namespace std;
 
 AiPlayer::AiPlayer(const char *name) : Player(name)
@@ -75,7 +74,8 @@ void AiPlayer::placeAllShips()
             {
                 ocean.placeShip(row, col, sizes[i], horizontal, symbols[i]);
                 placed = true;
-                if (DelayMode) SLEEP
+                if (DelayMode)
+                    SLEEP
             }
         }
     }
@@ -83,14 +83,16 @@ void AiPlayer::placeAllShips()
 
 void AiPlayer::makeMove(Player *opponent)
 {
+    std::cout << "<------------------------------------------->" << std::endl;
     bool validShot = false;
     int row, col;
-
+    std::cout << "Ai's Turn" << std::endl;
     while (!validShot)
     {
         row = getRandomcoordinate();
         col = getRandomcoordinate();
-        if (DelayMode) SLEEP
+        if (DelayMode)
+            SLEEP
 
         char targetCell = target.getCell(row, col);
         if (targetCell == 'X' || targetCell == 'M')
@@ -104,18 +106,21 @@ void AiPlayer::makeMove(Player *opponent)
     char opponentCell = opponent->getOcean().getCell(row, col);
 
     if (opponentCell == 'C' || opponentCell == 'B' || opponentCell == 'R' || opponentCell == 'S' || opponentCell == 'D')
-    {
+    {   
+        std::cout << "Ai hit at (" << row << ", " << col << ")." << std::endl;
         opponent->getOcean().markHit(row, col);
         target.markHit(row, col);
         Ship *hitShip = opponent->getShipBySymbol(opponentCell);
         if (hitShip)
         {
             hitShip->takeHit();
-            if (DelayMode) SLEEP
+            if (DelayMode)
+                SLEEP
             if (hitShip->isSunk())
             {
                 std::cout << "Ai has sunk your " << hitShip->getName() << "!" << std::endl;
-                if (DelayMode) SLEEP
+                if (DelayMode)
+                    SLEEP
             }
         }
     }
@@ -124,7 +129,14 @@ void AiPlayer::makeMove(Player *opponent)
         opponent->getOcean().markMiss(row, col);
         target.markMiss(row, col);
         std::cout << "Ai missed at (" << row << ", " << col << ")." << std::endl;
-        if (DelayMode) SLEEP
+        //
+        //if we want to show what they know
+        //std::cout << "What they know about you:" << std::endl;
+        //target.printGrid(true);
+        //
+        std::cout << "Your Current grid:" << std::endl;
+        opponent->getOcean().printGrid(true);
+        if (DelayMode)
+            SLEEP
     }
-
 }

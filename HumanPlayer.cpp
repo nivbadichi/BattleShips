@@ -8,8 +8,8 @@ created by Alex Tkachenkov & Niv Badichi
 #include "HumanPlayer.hpp"
 #include <chrono>
 #include <thread>
-#define SLEEP std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-#define DelayMode true
+#define SLEEP std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+#define DelayMode false
 
 void HumanPlayer::getInput(int &row, int &col) // save to 0 based index
 {
@@ -127,6 +127,7 @@ void HumanPlayer::placeAllShips()
 void HumanPlayer::makeMove(Player *opponent)
 {
     int row, col;
+    std::cout << "<------------------------------------------->" << std::endl;
     std::cout << playerName << ", it's your turn to make a move." << std::endl
               << "Here's what you know:" << std::endl;
     target.printGrid(true);
@@ -140,9 +141,9 @@ void HumanPlayer::makeMove(Player *opponent)
     }
     char result = opponent->getOcean().getCell(row, col);
     // debug
-    std::cout <<"IN HUMANPLAYER.CPP makeMove():"<<std::endl<< "You fired at (" << row + 1 << ", " << col + 1 << ") and got '" << result << "'." << std::endl;
-    if (DelayMode) SLEEP
+    //std::cout <<"IN HUMANPLAYER.CPP makeMove():"<<std::endl<< "You fired at (" << row + 1 << ", " << col + 1 << ") and got '" << result << "'." << std::endl;
     //
+    //if (DelayMode) SLEEP
     // check if there was a ship
     if (IsCharShip(result))
     {
@@ -178,5 +179,5 @@ void HumanPlayer::makeMove(Player *opponent)
     target.printGrid(true);
     std::cout << "Your Current grid:" << std::endl;
     ocean.printGrid(true);
-    std::cout << "<------------------------------------------->" << std::endl;
+    //std::cout << "<------------------------------------------->" << std::endl;
 }

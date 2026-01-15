@@ -7,7 +7,7 @@ created by Alex Tkachenkov & Niv Badichi
 #include <iostream>
 #include <chrono>
 #include <thread>
-#define SLEEP std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+#define SLEEP std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 #define DelayMode true
 
 
@@ -42,7 +42,7 @@ void Game::start() // Loop until one side is fully sunk:
 bool Game::isGameOver() const // Returns true if player1->allShipsSunk() or player2->allShipsSunk().
 {
     // debug
-    std::cout <<"IN GAME.CPP isGameOver():"<<std::endl<< "Checking if game is over on HUMAN"<<std::endl;
+    //std::cout <<"IN GAME.CPP isGameOver():"<<std::endl<< "Checking if game is over on HUMAN"<<std::endl;
     //
     if (player2->allShipsSunk())
     {
@@ -51,7 +51,7 @@ bool Game::isGameOver() const // Returns true if player1->allShipsSunk() or play
         return true;
     }
     // debug
-    std::cout <<"IN GAME.CPP isGameOver():"<<std::endl<< "Checking if game is over on AI"<<std::endl;
+    //std::cout <<"IN GAME.CPP isGameOver():"<<std::endl<< "Checking if game is over on AI"<<std::endl;
     //
     if (player1->allShipsSunk())
     {
