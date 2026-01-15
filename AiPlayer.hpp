@@ -12,5 +12,4 @@ public:
 private:
     int getRandomcoordinate() const;
     bool getRandomBoolean() const;
->>>>>>> origin/main
 };
