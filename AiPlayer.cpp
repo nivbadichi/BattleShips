@@ -114,5 +114,5 @@ void AiPlayer::makeMove(Player *opponent)
         target.markMiss(row, col);
         std::cout << "Ai missed at (" << row << ", " << col << ")." << std::endl;
     }
->>>>>>> origin/main
+
 }
