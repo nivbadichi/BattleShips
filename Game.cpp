@@ -5,6 +5,11 @@ created by Alex Tkachenkov & Niv Badichi
 #include "player.hpp"
 #include "Game.hpp"
 #include <iostream>
+#include <chrono>
+#include <thread>
+#define SLEEP std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+#define DelayMode true
+
 
 Game::Game(Player *p1, Player *p2) // Assigns two player objects (e.g., HumanPlayer vs. AiPlayer).
 {
@@ -41,6 +46,7 @@ bool Game::isGameOver() const // Returns true if player1->allShipsSunk() or play
     //
     if (player2->allShipsSunk())
     {
+        if (DelayMode) SLEEP
         std::cout << player1->getName() << " has sunken all of " << player2->getName() << "'s ships!" << std::endl;
         return true;
     }
@@ -49,6 +55,7 @@ bool Game::isGameOver() const // Returns true if player1->allShipsSunk() or play
     //
     if (player1->allShipsSunk())
     {
+        if (DelayMode) SLEEP
         std::cout << player2->getName() << " has sunken all of " << player1->getName() << "'s ships!" << std::endl;
         return true;
     }

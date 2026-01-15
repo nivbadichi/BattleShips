@@ -7,6 +7,10 @@ created by Alex Tkachenkov & Niv Badichi
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include <chrono>
+#include <thread>
+#define SLEEP std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+#define DelayMode true
 using namespace std;
 
 AiPlayer::AiPlayer(const char *name) : Player(name)
@@ -71,6 +75,7 @@ void AiPlayer::placeAllShips()
             {
                 ocean.placeShip(row, col, sizes[i], horizontal, symbols[i]);
                 placed = true;
+                if (DelayMode) SLEEP
             }
         }
     }
@@ -85,6 +90,7 @@ void AiPlayer::makeMove(Player *opponent)
     {
         row = getRandomcoordinate();
         col = getRandomcoordinate();
+        if (DelayMode) SLEEP
 
         char targetCell = target.getCell(row, col);
         if (targetCell == 'X' || targetCell == 'M')
@@ -105,10 +111,11 @@ void AiPlayer::makeMove(Player *opponent)
         if (hitShip)
         {
             hitShip->takeHit();
-
+            if (DelayMode) SLEEP
             if (hitShip->isSunk())
             {
                 std::cout << "Ai has sunk your " << hitShip->getName() << "!" << std::endl;
+                if (DelayMode) SLEEP
             }
         }
     }
@@ -117,6 +124,7 @@ void AiPlayer::makeMove(Player *opponent)
         opponent->getOcean().markMiss(row, col);
         target.markMiss(row, col);
         std::cout << "Ai missed at (" << row << ", " << col << ")." << std::endl;
+        if (DelayMode) SLEEP
     }
 
 }

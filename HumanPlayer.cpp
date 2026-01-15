@@ -6,6 +6,10 @@ created by Alex Tkachenkov & Niv Badichi
 #include <limits> // Required for numeric_limits
 #include "Grid.hpp"
 #include "HumanPlayer.hpp"
+#include <chrono>
+#include <thread>
+#define SLEEP std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+#define DelayMode true
 
 void HumanPlayer::getInput(int &row, int &col) // save to 0 based index
 {
@@ -111,6 +115,7 @@ void HumanPlayer::manuallyPlaceAShip(int length, const char *symbol)
 void HumanPlayer::placeAllShips()
 {
     std::cout << "Player " << playerName << ", place your ships on the grid." << std::endl;
+    if (DelayMode) SLEEP
     const char *symbols[5] = {"C", "B", "R", "S", "D"};
     const int sizes[5] = {5, 4, 3, 3, 2};
     for (int i = 0; i < 5; ++i)
@@ -125,21 +130,25 @@ void HumanPlayer::makeMove(Player *opponent)
     std::cout << playerName << ", it's your turn to make a move." << std::endl
               << "Here's what you know:" << std::endl;
     target.printGrid(true);
+    if (DelayMode) SLEEP
     getInput(row, col);
     while (target.isTileOccupied(row, col))
     {
         std::cout << "You have already fired at this location. Choose again." << std::endl;
+        if (DelayMode) SLEEP
         getInput(row, col);
     }
     char result = opponent->getOcean().getCell(row, col);
     // debug
     std::cout <<"IN HUMANPLAYER.CPP makeMove():"<<std::endl<< "You fired at (" << row + 1 << ", " << col + 1 << ") and got '" << result << "'." << std::endl;
+    if (DelayMode) SLEEP
     //
     // check if there was a ship
     if (IsCharShip(result))
     {
         target.markHit(row, col);
         std::cout << "Direct hit, Cap'n!" << std::endl;
+        if (DelayMode) SLEEP
         opponent->getOcean().markHit(row, col);
         Ship *hitShip = opponent->getShipBySymbol(result); // currently leads to segfault
         // debug
@@ -153,6 +162,7 @@ void HumanPlayer::makeMove(Player *opponent)
             if (hitShip->isSunk())
             {
                 std::cout << "Ship sunk!" << std::endl;
+                if (DelayMode) SLEEP
             }
             //
         }
